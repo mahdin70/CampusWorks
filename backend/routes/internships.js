@@ -49,13 +49,17 @@ router.post("/", authenticate, async (req, res) => {
 router.get("/", authenticate, async (req, res) => {
   try {
     const currentDate = new Date();
-    const internships = await Internship.find({ lastDateToApply: { $gt: currentDate } })
+    const internships = await Internship.find({
+      lastDateToApply: { $gt: currentDate },
+    })
       .sort({ lastDateToApply: 1 }) // Sort in ascending order of days remaining
       .exec();
 
     res.json(internships);
   } catch (error) {
-    res.status(500).json({ message: "Error retrieving internships", error: error });
+    res
+      .status(500)
+      .json({ message: "Error retrieving internships", error: error });
   }
 });
 
